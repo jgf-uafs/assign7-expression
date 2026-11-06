@@ -1,5 +1,7 @@
 package assignment;
 
+import java.util.Scanner;
+
 public class ExpressionEvaluator implements ExpressionEvaluatorInterface {
 
 	@Override
@@ -52,8 +54,39 @@ public class ExpressionEvaluator implements ExpressionEvaluatorInterface {
 
 	@Override
 	public int evaluatePostfix(String postfix) {
-		// TODO Auto-generated method stub
-		return 0;
+		Stack<Integer> stack = new Stack<>();
+		Scanner scnr = new Scanner(postfix);
+		
+		while(scnr.hasNext()){
+			if(scnr.hasNextInt()) {
+				stack.push(scnr.nextInt());
+			}else {
+				char c = scnr.next().charAt(0);
+				if(c == '+') {
+					int num2 = stack.pop();
+					int num1 = stack.pop();
+					stack.push(num1 + num2);
+				}else if(c == '-') {
+					int num2 = stack.pop();
+					int num1 = stack.pop();
+					stack.push(num1 - num2);
+				}else if(c == '*') {
+					int num2 = stack.pop();
+					int num1 = stack.pop();
+					stack.push(num1 * num2);
+				}else if(c == '/') {
+					int num2 = stack.pop();
+					int num1 = stack.pop();
+					stack.push(num1 / num2);
+				}else if(c == '^') {
+					int num2 = stack.pop();
+					int num1 = stack.pop();
+					stack.push((int) Math.pow(num1, num2));
+				}
+			}
+		}
+		scnr.close();
+		return stack.pop();
 	}
 
 }
